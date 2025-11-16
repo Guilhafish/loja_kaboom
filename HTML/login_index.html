@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Kaboom</title>
     <link rel="stylesheet" href="../CSS/login.css">
+    <script>
+        function validarFormulario() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            if (username.length < 3 || password.length < 3) {
+                alert("Utilizador e senha devem ter pelo menos 3 caracteres.");
+                return false; // impede envio
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
 
@@ -32,7 +44,7 @@
         <div class="login-box">
             <h2>Login</h2>
 
-            <form action="../PHP/login.php" method="POST">
+            <form action="../PHP/login.php" method="POST" onsubmit="return validarFormulario();">
                 <label for="username">Nome de utilizador</label>
                 <input type="text" id="username" name="username" placeholder="Utilizador" required>
 
