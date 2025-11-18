@@ -30,10 +30,10 @@ $username = $_SESSION['user'] ?? "Utilizador";
 
         <div class="menu">
             <ul>
-                <li><a href="../HTML/index.html">🏠 Início</a></li>
+                <li><a href="index.php">🏠 Início</a></li>
 
                 <?php if ($tipo === "admin"): ?>
-                    <li><a href="#">📦 Gerir Produtos</a></li>
+                    <li><a href="gerir_produtos.php">📦 Gerir Produtos</a></li>
                     <li><a href="#">👥 Gerir Clientes</a></li>
                     <li><a href="#">📝 Pedidos</a></li>
                 <?php endif; ?>
@@ -61,10 +61,10 @@ $username = $_SESSION['user'] ?? "Utilizador";
         <div class="cards">
 
             <?php if ($tipo === "admin"): ?>
-                <div class="card">
+                <a href="gerir_produtos.php" class="card" style="text-decoration:none; color:inherit;">
                     <h2>Produtos</h2>
                     <p>Gerir catálogo, preços e stock.</p>
-                </div>
+                </a>
 
                 <div class="card">
                     <h2>Clientes</h2>
@@ -74,6 +74,7 @@ $username = $_SESSION['user'] ?? "Utilizador";
                 <div class="card">
                     <h2>Pedidos</h2>
                     <p>Acompanhar pedidos feitos na loja.</p>
+                    
                 </div>
             <?php else: ?>
 
