@@ -30,7 +30,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Gerir Produtos</title>
-    <link rel="stylesheet" href="../CSS/admin.css">
+    <link rel="stylesheet" href="../CSS/gerir_produtos.css">
 </head>
 <body>
 

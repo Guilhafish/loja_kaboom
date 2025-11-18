@@ -1,0 +1,90 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #0b0b0b;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 50px;
+    min-height: 100vh;
+}
+
+/* FORMULÁRIO */
+form {
+    background-color: #111;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px #c40000;
+    width: 100%;
+    max-width: 500px;
+}
+
+form h1 {
+    color: #c40000;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* LABELS E INPUTS */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background-color: #1a1a1a;
+    color: #fff;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus {
+    border-color: #c40000;
+    outline: none;
+}
+
+/* BOTÃO */
+button {
+    width: 100%;
+    background-color: #c40000;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+button:hover {
+    background-color: #ff4d4d;
+}
+
+/* BOTÃO VOLTAR FIXO À ESQUERDA */
+a.button-voltar {
+    position: absolute;
+    top: 50px;
+    left: 30px;
+}
+
+a.button-voltar button {
+    width: auto;
+    padding: 10px 20px;
+    text-align: center;
+}

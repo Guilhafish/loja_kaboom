@@ -1,0 +1,88 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #0b0b0b;
+    color: #fff;
+    padding: 40px;
+}
+
+/* TÍTULOS */
+h1 {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+h1 span {
+    color: #c40000;
+}
+
+/* LINKS */
+a {
+    color: #c40000;
+    text-decoration: none;
+    margin-right: 15px;
+}
+
+a:hover {
+    color: #ff4d4d;
+}
+
+/* BOTÕES */
+button {
+    background-color: #c40000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+button:hover {
+    background-color: #ff4d4d;
+}
+
+/* TABELA */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #111;
+    box-shadow: 0 0 15px #c40000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #222;
+}
+
+th {
+    background-color: #111;
+    color: #c40000;
+}
+
+tr:hover {
+    background-color: #1a1a1a;
+}
+
+/* AÇÕES */
+td a {
+    margin-right: 10px;
+    color: #fff;
+}
+
+td a:hover {
+    color: #c40000;
+}
+
