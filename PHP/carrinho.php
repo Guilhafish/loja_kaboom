@@ -26,7 +26,7 @@ $total_geral = 0;
         <nav class="menu">
             <ul>
                 <li><a href="index.php">Início</a></li>
-                <li><a href="#">Petardos</a></li>
+                <li><a href="petardos.php">Petardos</a></li>
                 <li><a href="#">Fumos</a></li>
                 <li><a href="#">Tochas</a></li>
                 <li><a href="#">Strobes</a></li>
