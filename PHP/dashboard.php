@@ -1,0 +1,103 @@
+<?php
+session_start();
+
+// ⚠️ Caso não tenha session ainda, podemos ativar após você mandar seu login.php real.
+// if (!isset($_SESSION['user'])) {
+//     header("Location: login.php");
+//     exit();
+// }
+
+$tipo = $_SESSION['tipo'] ?? "cliente"; // admin ou cliente
+$username = $_SESSION['user'] ?? "Utilizador";
+
+?>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../CSS/dashboard.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <h1>Kaboom</h1>
+        </div>
+
+        <div class="menu">
+            <ul>
+                <li><a href="../HTML/index.html">🏠 Início</a></li>
+
+                <?php if ($tipo === "admin"): ?>
+                    <li><a href="#">📦 Gerir Produtos</a></li>
+                    <li><a href="#">👥 Gerir Clientes</a></li>
+                    <li><a href="#">📝 Pedidos</a></li>
+                <?php endif; ?>
+
+                <?php if ($tipo === "cliente"): ?>
+                    <li><a href="#">🛒 Meus Pedidos</a></li>
+                    <li><a href="#">💳 Métodos de Pagamento</a></li>
+                <?php endif; ?>
+
+                <li><a href="logout.php">🚪 Sair</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="main">
+        <h1>Bem-vindo, <span><?php echo $username; ?></span>!</h1>
+
+        <?php if ($tipo === "admin"): ?>
+            <p class="subtitle">Você está no <strong>Painel de Administração</strong>.</p>
+        <?php else: ?>
+            <p class="subtitle">Você está na sua área de cliente.</p>
+        <?php endif; ?>
+
+        <div class="cards">
+
+            <?php if ($tipo === "admin"): ?>
+                <div class="card">
+                    <h2>Produtos</h2>
+                    <p>Gerir catálogo, preços e stock.</p>
+                </div>
+
+                <div class="card">
+                    <h2>Clientes</h2>
+                    <p>Ver contas registadas.</p>
+                </div>
+
+                <div class="card">
+                    <h2>Pedidos</h2>
+                    <p>Acompanhar pedidos feitos na loja.</p>
+                </div>
+            <?php else: ?>
+
+                <div class="card">
+                    <h2>Meus Pedidos</h2>
+                    <p>Consultar compras anteriores.</p>
+                </div>
+
+                <div class="card">
+                    <h2>Perfil</h2>
+                    <p>Alterar dados pessoais.</p>
+                </div>
+
+                <div class="card">
+                    <h2>Pagamentos</h2>
+                    <p>Gerir métodos de pagamento.</p>
+                </div>
+
+            <?php endif; ?>
+
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>
