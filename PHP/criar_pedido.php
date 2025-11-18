@@ -51,30 +51,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Criar Pedido</title>
+    <link rel="stylesheet" href="../CSS/criar_pedido.css">
 </head>
 <body>
 
-<h1>➕ Criar Novo Pedido</h1>
-
-<a href="gerir_pedidos.php">⬅ Voltar aos Pedidos</a>
-<br><br>
-
-<?php if (isset($erro)): ?>
-    <div style="color: red;"><?= $erro ?></div>
-    <br>
-<?php endif; ?>
+<!-- Botão voltar -->
+<a href="gerir_pedidos.php" class="button-voltar">
+    <button type="button">⬅ Voltar</button>
+</a>
 
 <form method="POST">
-    <label>Cliente:</label><br>
+    <h1>➕ Criar Novo Pedido</h1>
+
+    <?php if (isset($erro)): ?>
+        <div class="erro"><?= $erro ?></div>
+    <?php endif; ?>
+
+    <label>Cliente:</label>
     <select name="id_cliente" required>
         <option value="">Selecione um cliente</option>
         <?php foreach ($clientes as $cliente): ?>
             <option value="<?= $cliente['id_cliente'] ?>"><?= $cliente['nome'] ?></option>
         <?php endforeach; ?>
     </select>
-    <br><br>
 
-    <label>Status:</label><br>
+    <label>Status:</label>
     <select name="status" required>
         <option value="pendente">Pendente</option>
         <option value="processado">Processado</option>
@@ -82,11 +83,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <option value="entregue">Entregue</option>
         <option value="cancelado">Cancelado</option>
     </select>
-    <br><br>
 
-    <label>Total (€):</label><br>
+    <label>Total (€):</label>
     <input type="number" name="total" step="0.01" min="0" required>
-    <br><br>
 
     <button type="submit">Criar Pedido</button>
 </form>

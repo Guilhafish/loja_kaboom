@@ -58,16 +58,19 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Editar Pedido</title>
+    <link rel="stylesheet" href="../CSS/editar_pedido.css">
 </head>
 <body>
 
-<h1>✏ Editar Pedido #<?= $pedido['id_pedido'] ?></h1>
-
-<a href="gerir_pedidos.php">⬅ Voltar aos Pedidos</a>
-<br><br>
+<!-- Botão voltar -->
+<a href="gerir_pedidos.php" class="button-voltar">
+    <button type="button">⬅ Voltar</button>
+</a>
 
 <form method="POST">
-    <label>Cliente:</label><br>
+    <h1>✏ Editar Pedido #<?= $pedido['id_pedido'] ?></h1>
+
+    <label>Cliente:</label>
     <select name="id_cliente" required>
         <option value="">Selecione um cliente</option>
         <?php foreach ($clientes as $cliente): ?>
@@ -77,9 +80,8 @@ try {
             </option>
         <?php endforeach; ?>
     </select>
-    <br><br>
 
-    <label>Status:</label><br>
+    <label>Status:</label>
     <select name="status" required>
         <option value="pendente" <?= $pedido['status'] == 'pendente' ? 'selected' : '' ?>>Pendente</option>
         <option value="processado" <?= $pedido['status'] == 'processado' ? 'selected' : '' ?>>Processado</option>
@@ -87,11 +89,9 @@ try {
         <option value="entregue" <?= $pedido['status'] == 'entregue' ? 'selected' : '' ?>>Entregue</option>
         <option value="cancelado" <?= $pedido['status'] == 'cancelado' ? 'selected' : '' ?>>Cancelado</option>
     </select>
-    <br><br>
 
-    <label>Total (€):</label><br>
+    <label>Total (€):</label>
     <input type="number" name="total" step="0.01" min="0" value="<?= $pedido['total'] ?>" required>
-    <br><br>
 
     <button type="submit">Atualizar Pedido</button>
 </form>

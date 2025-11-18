@@ -35,25 +35,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Gerir Pedidos</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .status-pendente { color: orange; font-weight: bold; }
-        .status-processado { color: blue; font-weight: bold; }
-        .status-enviado { color: green; font-weight: bold; }
-        .status-cancelado { color: red; font-weight: bold; }
-    </style>
+    <link rel="stylesheet" href="../CSS/gerir_pedidos.css">
 </head>
 <body>
 
