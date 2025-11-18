@@ -51,7 +51,7 @@ session_start();
 </a>
 <?php endif; ?>
  
-            <div class="cart">🛒</div>
+<a href="carrinho.php" class="cart">🛒</a>
 </div>
 </header>
  

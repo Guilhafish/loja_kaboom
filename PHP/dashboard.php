@@ -25,8 +25,8 @@ $username = $_SESSION['user'] ?? "Utilizador";
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="logo">
-            <h1>Kaboom</h1>
-        </div>
+            <h1>🔥 Kaboom</h1>
+        </div>  
 
         <div class="menu">
             <ul>
