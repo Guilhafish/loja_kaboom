@@ -40,7 +40,7 @@ $username = $_SESSION['user'] ?? "Utilizador";
 
                 <?php if ($tipo === "cliente"): ?>
                     <li><a href="meus_pedidos.php">🛒 Meus Pedidos</a></li>
-                    <li><a href="#">👤 Perfil</a></li>
+                    <li><a href="perfil.php">👤 Perfil</a></li>
                     <li><a href="#">💳 Métodos de Pagamento</a></li>
                 <?php endif; ?>
 
@@ -83,11 +83,10 @@ $username = $_SESSION['user'] ?? "Utilizador";
                     <p>Consultar compras anteriores.</p>
                 </a>
 
-
-                <div class="card">
+                <a href="perfil.php" class="card" style="text-decoration:none; color:inherit;">
                     <h2>Perfil</h2>
                     <p>Alterar dados pessoais.</p>
-                </div>
+                </a>
 
                 <div class="card">
                     <h2>Pagamentos</h2>
