@@ -1,0 +1,101 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* FUNDO */
+body {
+    background-color: #0b0b0b;
+    color: #fff;
+    padding: 40px;
+}
+
+/* TÍTULO */
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+/* BOTÃO VOLTAR (igual ao estilo admin: caixa vermelha) */
+.btn-vermelho {
+    display: inline-block;
+    background-color: #c40000;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 0 10px #c40000;
+    margin-bottom: 25px;
+    transition: 0.3s;
+}
+
+.btn-vermelho:hover {
+    background-color: #ff4d4d;
+    box-shadow: 0 0 15px #ff4d4d;
+}
+
+/* TABELA */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #111;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 15px #c40000;
+}
+
+th, td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #222;
+}
+
+th {
+    background-color: #161616;
+    color: #c40000;
+    font-weight: 600;
+}
+
+tr:hover {
+    background-color: #1b1b1b;
+}
+
+/* STATUS cores */
+.status-pendente {
+    color: orange;
+    font-weight: bold;
+}
+.status-processado {
+    color: deepskyblue;
+    font-weight: bold;
+}
+.status-enviado {
+    color: #00ff48;
+    font-weight: bold;
+}
+.status-entregue {
+    color: #32cd32;
+    font-weight: bold;
+}
+.status-cancelado {
+    color: #ff2d2d;
+    font-weight: bold;
+}
+
+/* AÇÕES */
+table a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+table a:hover {
+    color: #c40000;
+}

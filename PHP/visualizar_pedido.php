@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-// Apenas admin pode aceder
-if (!isset($_SESSION['user']) || $_SESSION['tipo'] !== 'admin') {
+if (!isset($_SESSION['user'])) {
     header("Location: ../HTML/index.php");
     exit();
 }
@@ -16,24 +15,43 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Validar ID
     if (!isset($_GET['id'])) {
         die("Pedido inválido.");
     }
     $id_pedido = $_GET['id'];
 
+    // Se for cliente, pegar o ID do cliente
+    $id_cliente = null;
+    if ($_SESSION['tipo'] === 'cliente') {
+        $stmtCliente = $pdo->prepare("SELECT id_cliente FROM cliente WHERE nome = :nome LIMIT 1");
+        $stmtCliente->execute([':nome' => $_SESSION['user']]);
+        $cliente = $stmtCliente->fetch(PDO::FETCH_ASSOC);
+        if (!$cliente) {
+            die("Cliente não encontrado.");
+        }
+        $id_cliente = $cliente['id_cliente'];
+    }
+
     // Buscar informações do pedido
-    $stmtPedido = $pdo->prepare("
+    $queryPedido = "
         SELECT p.*, c.nome AS cliente_nome, c.email
         FROM pedido p
         LEFT JOIN cliente c ON p.id_cliente = c.id_cliente
         WHERE p.id_pedido = :id
-    ");
-    $stmtPedido->execute([':id' => $id_pedido]);
-    $pedido = $stmtPedido->fetch(PDO::FETCH_ASSOC);
+    ";
 
+    if ($_SESSION['tipo'] === 'cliente') {
+        $queryPedido .= " AND p.id_cliente = :id_cliente";
+        $stmtPedido = $pdo->prepare($queryPedido);
+        $stmtPedido->execute([':id' => $id_pedido, ':id_cliente' => $id_cliente]);
+    } else {
+        $stmtPedido = $pdo->prepare($queryPedido);
+        $stmtPedido->execute([':id' => $id_pedido]);
+    }
+
+    $pedido = $stmtPedido->fetch(PDO::FETCH_ASSOC);
     if (!$pedido) {
-        die("Pedido não encontrado.");
+        die("Pedido não encontrado ou sem permissão para ver.");
     }
 
     // Buscar itens do pedido
@@ -62,7 +80,7 @@ try {
 
 <h1>📄 Detalhes do Pedido #<?= $pedido['id_pedido']; ?></h1>
 
-<a href="gerir_pedidos.php" class="btn-vermelho">⬅ Voltar</a>
+<a href="<?= $_SESSION['tipo'] === 'admin' ? 'gerir_pedidos.php' : 'meus_pedidos.php'; ?>" class="btn-vermelho">⬅ Voltar</a>
 
 <h2>👤 Cliente</h2>
 <p><strong>Nome:</strong> <?= $pedido['cliente_nome']; ?></p>
