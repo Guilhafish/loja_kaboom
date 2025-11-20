@@ -7,7 +7,7 @@ if (!isset($_SESSION['user']) || $_SESSION['tipo'] !== 'admin') {
     exit();
 }
 
-// Conexão
+// Conexão com BD
 $host = "localhost";
 $dbname = "loja_pirotecnia";
 $user = "guimira";
@@ -17,11 +17,11 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Query para obter pedidos com informação do cliente
+    // Buscar todos os pedidos com nome do cliente
     $stmt = $pdo->query("
-        SELECT p.*, c.nome as nome_cliente 
-        FROM pedido p 
-        LEFT JOIN cliente c ON p.id_cliente = c.id_cliente 
+        SELECT p.*, c.nome AS nome_cliente
+        FROM Pedido p
+        LEFT JOIN Cliente c ON p.id_cliente = c.id_cliente
         ORDER BY p.data_pedido DESC
     ");
     $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -43,6 +43,7 @@ try {
 
 <a href="dashboard.php">⬅ Voltar ao Painel</a>
 <br><br>
+
 <a href="criar_pedido.php">
     <button>➕ Criar Novo Pedido</button>
 </a>
@@ -63,18 +64,23 @@ try {
         <td><?= $pedido['id_pedido']; ?></td>
         <td><?= $pedido['nome_cliente'] ?: 'Cliente não encontrado'; ?></td>
         <td><?= date('d/m/Y H:i', strtotime($pedido['data_pedido'])); ?></td>
+
         <td>
             <?php 
-            $statusClass = 'status-' . strtolower($pedido['status']);
-            echo "<span class='$statusClass'>" . $pedido['status'] . "</span>";
+                $statusClass = 'status-' . strtolower($pedido['status']);
+                echo "<span class='$statusClass'>{$pedido['status']}</span>";
             ?>
         </td>
+
         <td><?= number_format($pedido['total'], 2, ',', '.'); ?> €</td>
+
         <td>
+            <a href="visualizar_pedido.php?id=<?= $pedido['id_pedido']; ?>">🔍 Ver Itens</a>
+            |
             <a href="editar_pedido.php?id=<?= $pedido['id_pedido']; ?>">✏ Editar</a>
             |
             <a href="remover_pedido.php?id=<?= $pedido['id_pedido']; ?>" 
-               onclick="return confirm('Tem certeza que deseja remover este pedido?')">🗑 Remover</a>
+               onclick="return confirm('Tens a certeza que desejas remover este pedido?')">🗑 Remover</a>
         </td>
     </tr>
     <?php endforeach; ?>

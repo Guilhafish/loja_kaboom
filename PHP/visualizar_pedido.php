@@ -1,0 +1,95 @@
+<?php
+session_start();
+
+// Apenas admin pode aceder
+if (!isset($_SESSION['user']) || $_SESSION['tipo'] !== 'admin') {
+    header("Location: ../HTML/index.php");
+    exit();
+}
+
+$host = "localhost";
+$dbname = "loja_pirotecnia";
+$user = "guimira";
+$pass = "1234";
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Validar ID
+    if (!isset($_GET['id'])) {
+        die("Pedido inválido.");
+    }
+    $id_pedido = $_GET['id'];
+
+    // Buscar informações do pedido
+    $stmtPedido = $pdo->prepare("
+        SELECT p.*, c.nome AS cliente_nome, c.email
+        FROM pedido p
+        LEFT JOIN cliente c ON p.id_cliente = c.id_cliente
+        WHERE p.id_pedido = :id
+    ");
+    $stmtPedido->execute([':id' => $id_pedido]);
+    $pedido = $stmtPedido->fetch(PDO::FETCH_ASSOC);
+
+    if (!$pedido) {
+        die("Pedido não encontrado.");
+    }
+
+    // Buscar itens do pedido
+    $stmtItens = $pdo->prepare("
+        SELECT i.*, pr.nome AS produto_nome
+        FROM itempedido i
+        LEFT JOIN produto pr ON pr.id_produto = i.id_produto
+        WHERE i.id_pedido = :id
+    ");
+    $stmtItens->execute([':id' => $id_pedido]);
+    $itens = $stmtItens->fetchAll(PDO::FETCH_ASSOC);
+
+} catch (PDOException $e) {
+    die("Erro: " . $e->getMessage());
+}
+?>
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<title>Detalhes do Pedido</title>
+<link rel="stylesheet" href="../CSS/visualizar_pedido.css">
+</head>
+<body>
+
+<h1>📄 Detalhes do Pedido #<?= $pedido['id_pedido']; ?></h1>
+
+<a href="gerir_pedidos.php" class="btn-vermelho">⬅ Voltar</a>
+
+<h2>👤 Cliente</h2>
+<p><strong>Nome:</strong> <?= $pedido['cliente_nome']; ?></p>
+<p><strong>Email:</strong> <?= $pedido['email']; ?></p>
+<p><strong>Data:</strong> <?= $pedido['data_pedido']; ?></p>
+<p><strong>Status:</strong> <?= $pedido['status']; ?></p>
+<p><strong>Total:</strong> €<?= number_format($pedido['total'], 2); ?></p>
+
+<h2>🛒 Itens do Pedido</h2>
+
+<table border="1" cellpadding="6">
+    <tr>
+        <th>Produto</th>
+        <th>Quantidade</th>
+        <th>Preço Unitário (€)</th>
+        <th>Subtotal (€)</th>
+    </tr>
+
+    <?php foreach ($itens as $item): ?>
+    <tr>
+        <td><?= $item['produto_nome']; ?></td>
+        <td><?= $item['quantidade']; ?></td>
+        <td><?= number_format($item['preco_unitario'], 2); ?></td>
+        <td><?= number_format($item['preco_unitario'] * $item['quantidade'], 2); ?></td>
+    </tr>
+    <?php endforeach; ?>
+</table>
+
+</body>
+</html>
