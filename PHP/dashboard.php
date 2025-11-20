@@ -15,7 +15,7 @@ $username = $_SESSION['user'] ?? "Utilizador";
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>Painel</title>
     <link rel="stylesheet" href="../CSS/dashboard.css">
 </head>
 <body>

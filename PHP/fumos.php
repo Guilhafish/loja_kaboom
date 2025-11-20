@@ -2,8 +2,8 @@
 session_start();
 require "db.php"; // Conexão com o banco de dados
 
-// Buscar produtos da categoria "Petardos"
-$sql = "SELECT * FROM produto WHERE categoria = 'Petardos'";
+// Buscar produtos da categoria "Fumos"
+$sql = "SELECT * FROM produto WHERE categoria = 'Fumos'";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -13,8 +13,10 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Petardos - Kaboom</title>
-    <link rel="stylesheet" href="../CSS/petardos.css">
+    <title>Fumos - Kaboom</title>
+
+    <!-- CSS externo -->
+    <link rel="stylesheet" href="../CSS/fumos.css">
 </head>
 <body>
 
@@ -26,8 +28,8 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <nav class="menu">
         <ul>
             <li><a href="index.php">Início</a></li>
-            <li><a href="petardos.php" class="active">Petardos</a></li>
-            <li><a href="fumos.php">Fumos</a></li>
+            <li><a href="petardos.php">Petardos</a></li>
+            <li><a href="fumos.php" class="active">Fumos</a></li>
             <li><a href="#">Tochas</a></li>
             <li><a href="#">Strobes</a></li>
             <li><a href="#">Contacto</a></li>
@@ -35,7 +37,6 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </nav>
 
     <div class="actions">
-
         <?php if (isset($_SESSION['user'])): ?>
             <span class="username">👋 Olá, <strong><?php echo htmlspecialchars($_SESSION['user']); ?></strong></span>
 
@@ -59,13 +60,14 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <main>
 
-    <h2 class="titulo-categoria">Petardos</h2>
+    <h2 class="titulo-categoria">Fumos</h2>
 
     <section class="produtos">
 
         <?php if (count($produtos) > 0): ?>
             <?php foreach ($produtos as $prod): ?>
                 <div class="produto-card">
+
                     <h3><?php echo htmlspecialchars($prod['nome']); ?></h3>
                     <p><?php echo htmlspecialchars($prod['descricao']); ?></p>
                     <p class="preco">€<?php echo number_format($prod['preco'], 2, ',', '.'); ?></p>
@@ -83,7 +85,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <button class="btn-qty" onclick="alterarQtd('<?php echo $prod['id_produto']; ?>', 1)">+</button>
                     </div>
 
-                    <!-- Botão de adicionar ao carrinho com quantidade -->
+                    <!-- Botão Adicionar -->
                     <a href="#" class="add-btn"
                        onclick="adicionarCarrinho(<?php echo $prod['id_produto']; ?>)">
                         Adicionar ao Carrinho
@@ -92,9 +94,7 @@ $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
-            <p style="text-align:center; color:#aaa; font-size:1.1rem;">
-                Não há produtos nesta categoria ainda.
-            </p>
+            <p class="sem-produtos">Não há produtos cadastrados nesta categoria ainda.</p>
         <?php endif; ?>
 
     </section>

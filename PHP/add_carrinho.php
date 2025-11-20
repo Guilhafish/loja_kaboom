@@ -5,12 +5,12 @@ session_start();
 // 1️⃣ Verifica login
 // ----------------------
 if (!isset($_SESSION['user']) || $_SESSION['tipo'] !== 'cliente') {
-    echo "<script>alert('Precisas estar logado como cliente para adicionar ao carrinho!'); window.location.href='login_index.html';</script>";
+    echo "<script>alert('Precisas estar logado como cliente para adicionar ao carrinho!'); window.location.href='../HTML/login_index.html';</script>";
     exit();
 }
 
 // ----------------------
-// 2️⃣ Conexão com o banco
+// 2️⃣ Conexão ao banco
 // ----------------------
 $host = "localhost";
 $dbname = "loja_pirotecnia";
@@ -25,10 +25,10 @@ try {
 }
 
 // ----------------------
-// 3️⃣ Recebe ID do produto e quantidade
+// 3️⃣ Recebe ID e quantidade
 // ----------------------
 $id_produto = $_GET['id'] ?? null;
-$quantidade = 1; // padrão 1
+$quantidade = isset($_GET['qtd']) ? intval($_GET['qtd']) : 1;
 
 if (!$id_produto || !is_numeric($id_produto) || $quantidade < 1) {
     echo "<script>alert('Dados inválidos!'); window.history.back();</script>";
@@ -36,7 +36,7 @@ if (!$id_produto || !is_numeric($id_produto) || $quantidade < 1) {
 }
 
 // ----------------------
-// 4️⃣ Busca dados do produto no banco
+// 4️⃣ Busca produto
 // ----------------------
 $stmt = $pdo->prepare("SELECT nome, preco FROM produto WHERE id_produto = :id LIMIT 1");
 $stmt->execute([':id' => $id_produto]);
@@ -48,14 +48,14 @@ if (!$produto) {
 }
 
 // ----------------------
-// 5️⃣ Cria carrinho se não existir
+// 5️⃣ Cria carrinho caso não exista
 // ----------------------
 if (!isset($_SESSION['carrinho'])) {
     $_SESSION['carrinho'] = [];
 }
 
 // ----------------------
-// 6️⃣ Adiciona ou atualiza o produto no carrinho
+// 6️⃣ Adiciona ao carrinho
 // ----------------------
 if (isset($_SESSION['carrinho'][$id_produto])) {
     $_SESSION['carrinho'][$id_produto]['quantidade'] += $quantidade;
@@ -68,7 +68,7 @@ if (isset($_SESSION['carrinho'][$id_produto])) {
 }
 
 // ----------------------
-// 7️⃣ Redireciona de volta para a página anterior
+// 7️⃣ Redireciona de volta
 // ----------------------
 $referer = $_SERVER['HTTP_REFERER'] ?? 'index.php';
 header("Location: $referer");

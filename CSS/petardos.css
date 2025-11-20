@@ -12,7 +12,7 @@ body {
     color: #fff;
 }
 
-/* === CABEÇALHO === (idêntico ao index.css) */
+/* === CABEÇALHO === */
 header {
     background-color: #111;
     display: flex;
@@ -28,6 +28,7 @@ header {
     font-weight: 700;
 }
 
+/* === MENU === */
 .menu ul {
     list-style: none;
     display: flex;
@@ -41,11 +42,12 @@ header {
     transition: color 0.3s;
 }
 
-.menu a:hover {
+.menu a:hover,
+.menu a.active {
     color: #c40000;
 }
 
-/* === AÇÕES === */
+/* === ACTIONS (login, logout, carrinho) === */
 .actions {
     display: flex;
     align-items: center;
@@ -84,12 +86,23 @@ header {
     font-size: 1.5rem;
     cursor: pointer;
     transition: transform 0.2s;
-    text-decoration: none;
     color: white;
+    text-decoration: underline;
+    text-decoration-color: #00f; /* define cor azul */
+    text-underline-offset: 3px;  /* distancia do texto */
 }
 
 .cart:hover {
     transform: scale(1.2);
+}
+
+
+/* === TÍTULO DA CATEGORIA === */
+.titulo-categoria {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 2rem;
+    color: #c40000;
 }
 
 /* === LISTA DE PRODUTOS === */
@@ -132,6 +145,41 @@ header {
     margin-bottom: 15px;
 }
 
+/* === QUANTIDADE === */
+.quantidade-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.btn-qty {
+    background-color: #c40000;
+    color: #fff;
+    border: none;
+    padding: 5px 12px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-qty:hover {
+    background-color: #ff0000;
+}
+
+.quantidade-input {
+    width: 50px;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #c40000;
+    background-color: #111;
+    color: white;
+}
+
+/* === BOTÃO ADICIONAR AO CARRINHO === */
 .add-btn {
     background-color: #c40000;
     color: #fff;
@@ -145,6 +193,14 @@ header {
 
 .add-btn:hover {
     background-color: #ff0000;
+}
+
+/* === MENSAGEM SEM PRODUTOS === */
+.sem-produtos {
+    text-align: center;
+    font-size: 1.1rem;
+    margin: 40px 0;
+    color: #aaa;
 }
 
 /* === RODAPÉ === */
