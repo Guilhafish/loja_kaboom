@@ -101,6 +101,17 @@ try {
             ]);
         }
 
+        // INSERIR PAGAMENTO AQUI
+        $stmtPagamento = $pdo->prepare("
+            INSERT INTO pagamento (id_pedido, metodo, valor, data_pagamento, status)
+            VALUES (:id_pedido, :metodo, :valor, NOW(), 'pendente')
+        ");
+        $stmtPagamento->execute([
+            ':id_pedido' => $id_pedido,
+            ':metodo' => $metodo_pagamento,
+            ':valor' => $total
+        ]);
+
         // Limpar carrinho
         unset($_SESSION['carrinho']);
 
