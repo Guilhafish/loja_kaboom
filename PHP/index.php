@@ -20,9 +20,9 @@ session_start();
             <li><a href="index.php" class="active">Início</a></li>
             <li><a href="petardos.php">Petardos</a></li>
             <li><a href="fumos.php">Fumos</a></li>
-            <li><a href="#">Tochas</a></li>
-            <li><a href="#">Strobes</a></li>
-            <li><a href="#">Contacto</a></li>
+            <li><a href="tochas.php">Tochas</a></li>
+            <li><a href="strobes.php">Strobes</a></li>
+            <li><a href="contacto.php">Contacto</a></li>
         </ul>
     </nav>
  
