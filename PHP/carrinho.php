@@ -2,7 +2,7 @@
 session_start();
 
 // Verifica se o cliente está logado
-if (!isset($_SESSION['user']) || $_SESSION['tipo'iiibxaa] !== 'cliente') {
+if (!isset($_SESSION['user']) || $_SESSION['tipo'] !== 'cliente') {
     echo "<script>alert('Precisas estar logado como cliente!'); window.location.href='../HTML/login_index.html';</script>";
     exit();
 }
