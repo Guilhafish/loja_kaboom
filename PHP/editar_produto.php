@@ -13,28 +13,47 @@ $dbname = "loja_pirotecnia";
 $user = "guimira";
 $pass = "1234";
 $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Captura o ID do produto
-$id = $_GET['id'];
+$id = $_GET['id'] ?? null;
+if (!$id) {
+    die("Produto inválido.");
+}
 
 // Buscar produto
 $stmt = $pdo->prepare("SELECT * FROM produto WHERE id_produto = :id");
 $stmt->execute(["id" => $id]);
-$produto = $stmt->fetch();
+$produto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$produto) {
+    die("Produto não encontrado.");
+}
 
 // Processa o formulário
-if ($_POST) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = $_POST['nome'];
     $descricao = $_POST['descricao'];
     $preco = $_POST['preco'];
     $estoque = $_POST['estoque'];
     $categoria = $_POST['categoria'];
 
-    $update = $pdo->prepare("UPDATE produto 
-        SET nome = :nome, descricao = :descricao, preco = :preco,
-            estoque = :estoque, categoria = :categoria 
-        WHERE id_produto = :id");
-    
+    // 🚨 VALIDAÇÃO DE ESTOQUE
+    if ($estoque < 0) {
+        echo "<script>alert('O estoque não pode ser negativo!'); history.back();</script>";
+        exit();
+    }
+
+    $update = $pdo->prepare("
+        UPDATE produto 
+        SET nome = :nome,
+            descricao = :descricao,
+            preco = :preco,
+            estoque = :estoque,
+            categoria = :categoria 
+        WHERE id_produto = :id
+    ");
+
     $update->execute([
         ":nome" => $nome,
         ":descricao" => $descricao,
@@ -67,19 +86,19 @@ if ($_POST) {
     <h1>✏ Editar Produto</h1>
 
     <label>Nome:</label>
-    <input type="text" name="nome" value="<?= $produto['nome'] ?>" required>
+    <input type="text" name="nome" value="<?= htmlspecialchars($produto['nome']); ?>" required>
 
     <label>Descrição:</label>
-    <textarea name="descricao" required><?= $produto['descricao'] ?></textarea>
+    <textarea name="descricao" required><?= htmlspecialchars($produto['descricao']); ?></textarea>
 
     <label>Preço:</label>
-    <input type="number" name="preco" step="0.01" value="<?= $produto['preco'] ?>" required>
+    <input type="number" name="preco" step="0.01" min="0" value="<?= $produto['preco']; ?>" required>
 
     <label>Estoque:</label>
-    <input type="number" name="estoque" value="<?= $produto['estoque'] ?>" required>
+    <input type="number" name="estoque" min="0" value="<?= $produto['estoque']; ?>" required>
 
     <label>Categoria:</label>
-    <input type="text" name="categoria" value="<?= $produto['categoria'] ?>" required>
+    <input type="text" name="categoria" value="<?= htmlspecialchars($produto['categoria']); ?>" required>
 
     <button type="submit">Guardar Alterações</button>
 </form>

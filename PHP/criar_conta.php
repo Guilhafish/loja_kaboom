@@ -35,7 +35,7 @@ try {
         }
     }
 } catch (PDOException $e) {
-    $msg = "Erro na ligação: " . $e->getMessage();
+    $msg = "Os dados inseridos já estão a ser utilizados noutra conta.";
 }
 ?>
 
