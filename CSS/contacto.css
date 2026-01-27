@@ -1,0 +1,166 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #0b0b0b;
+    color: #fff;
+}
+
+/* === CABEÇALHO === */
+header {
+    background-color: #111;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    border-bottom: 2px solid #c40000;
+}
+
+.logo h1 {
+    color: #c40000;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* === MENU === */
+.menu ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.menu a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.menu a:hover,
+.menu a.active {
+    color: #c40000;
+}
+
+/* === AÇÕES (login, logout, carrinho) === */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.username {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.login-btn,
+.logout-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    color: #fff;
+}
+
+.login-btn {
+    background-color: #c40000;
+}
+
+.login-btn:hover {
+    background-color: #ff0000;
+}
+
+.logout-btn {
+    background-color: #555;
+}
+
+.logout-btn:hover {
+    background-color: #777;
+}
+
+/* === CARRINHO === */
+.cart {
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    color: white;
+    text-decoration: underline;
+    text-decoration-color: #00f;
+    text-underline-offset: 3px;
+}
+
+.cart:hover {
+    transform: scale(1.2);
+}
+
+/* ... o resto do seu CSS continua igual ... */
+
+/* CONTEÚDO */
+.contacto-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.contacto-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #c40000;
+}
+
+.info {
+    background: #111;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.info p {
+    margin-bottom: 10px;
+}
+
+/* MAPA */
+.mapa {
+    margin-bottom: 30px;
+}
+
+.mapa h3 {
+    margin-bottom: 10px;
+}
+
+.mapa iframe {
+    width: 100%;
+    height: 300px;
+    border: none;
+    border-radius: 8px;
+}
+
+/* SEGURANÇA */
+.seguranca {
+    background-color: #1a1a1a;
+    border-left: 4px solid #c40000;
+    padding: 20px;
+    border-radius: 6px;
+}
+
+.seguranca h3 {
+    margin-bottom: 10px;
+    color: #ff5555;
+}
+
+/* RODAPÉ */
+footer {
+    background-color: #111;
+    color: #aaa;
+    text-align: center;
+    padding: 15px;
+    border-top: 1px solid #c40000;
+    margin-top: 40px;
+}

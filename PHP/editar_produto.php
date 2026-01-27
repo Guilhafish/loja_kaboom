@@ -71,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🔥</text></svg>">
     <meta charset="UTF-8">
     <title>Editar Produto</title>
     <link rel="stylesheet" href="../CSS/editar_produto.css">
