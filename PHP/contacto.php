@@ -58,7 +58,7 @@ session_start();
     <section class="info">
         <p><strong>Email:</strong> suporte@kaboom.pt</p>
         <p><strong>Telefone:</strong> +351 912 345 678</p>
-        <p><strong>Morada:</strong> Rua da Pirotecnia, 123 – Lisboa</p>
+        <p><strong>Morada:</strong> Tv. José Frederico Laranjo, 4460-343 Sra. da Hora</p>
         <p><strong>Horário:</strong> Seg–Sex 09h–18h | Sáb 09h–13h</p>
     </section>
 
@@ -66,7 +66,7 @@ session_start();
     <section class="mapa">
         <h3>📍 Onde estamos</h3>
         <iframe 
-            src="https://www.google.com/maps?q=Lisboa&output=embed"
+            src="https://www.google.com/maps?q=Tv.+José+Frederico+Laranjo,+4460-343+Sra.+da+Hora&output=embed"
             allowfullscreen=""
             loading="lazy">
         </iframe>

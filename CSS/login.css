@@ -25,12 +25,12 @@ body {
     box-shadow: 2px 0 15px #c40000;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* alterado de space-between para flex-start */
+    justify-content: flex-start;
 }
 
 .sidebar .logo h1 {
     color: #c40000;
-    margin-bottom: 20px; /* alterado de 40px para 20px */
+    margin-bottom: 20px;
     font-size: 2rem;
 }
 
@@ -73,10 +73,44 @@ body {
     text-align: center;
 }
 
+/* Logo da página de login - APENAS O SÍMBOLO DO FOGO */
+.login-logo {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.fire-logo {
+    font-size: 5rem; /* MAIOR que o título Login */
+    color: #c40000;
+    text-shadow: 0 0 25px rgba(196, 0, 0, 0.8),
+                 0 0 40px rgba(255, 50, 0, 0.6);
+    margin-bottom: 5px;
+    display: block;
+    animation: fire-flicker 1.2s infinite alternate;
+    line-height: 1;
+}
+
+/* Animação para o logo de fogo */
+@keyframes fire-flicker {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 25px rgba(196, 0, 0, 0.8),
+                     0 0 40px rgba(255, 50, 0, 0.6);
+    }
+    100% {
+        transform: scale(1.1);
+        text-shadow: 0 0 30px rgba(255, 0, 0, 1),
+                     0 0 50px rgba(255, 100, 0, 0.8),
+                     0 0 60px rgba(255, 150, 0, 0.4);
+    }
+}
+
 .login-box h2 {
     color: #c40000;
+    margin-top: 10px; /* Menor espaçamento porque o logo é grande */
     margin-bottom: 30px;
-    font-size: 2rem;
+    font-size: 2rem; /* MENOR que o logo do fogo */
+    text-shadow: 0 0 8px rgba(196, 0, 0, 0.4);
 }
 
 .login-box label {
@@ -114,6 +148,7 @@ body {
 
 .btn:hover {
     background-color: #ff0000;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
 }
 
 .register-link {
@@ -139,4 +174,55 @@ footer {
     position: relative;
     bottom: 0;
     width: 100%;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        padding: 20px;
+        box-shadow: 0 2px 15px #c40000;
+    }
+    
+    .sidebar .menu ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .sidebar .menu ul li {
+        margin-bottom: 0;
+    }
+    
+    .login-main {
+        padding: 30px 20px;
+    }
+    
+    .fire-logo {
+        font-size: 4rem; /* Um pouco menor em mobile */
+    }
+    
+    .login-box h2 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-box {
+        padding: 30px 20px;
+    }
+    
+    .fire-logo {
+        font-size: 3.5rem;
+    }
+    
+    .login-box h2 {
+        font-size: 1.6rem;
+        margin-top: 5px;
+    }
 }

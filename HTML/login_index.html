@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🔥</text></svg>">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Kaboom</title>
     <link rel="stylesheet" href="../CSS/login.css">
@@ -43,6 +43,11 @@
     <!-- Área de login à direita -->
     <main class="login-main">
         <div class="login-box">
+            <!-- Logo apenas com o símbolo do fogo -->
+            <div class="login-logo">
+                <div class="fire-logo">🔥</div>
+            </div>
+            
             <h2>Login</h2>
 
             <form action="../PHP/login.php" method="POST" onsubmit="return validarFormulario();">
