@@ -21,7 +21,7 @@ try {
     }
 
     // -----------------------------
-    // 1️⃣ Verificar ADMIN
+    // 1️⃣ Verificar ADMIN (igual)
     // -----------------------------
     $stmtAdmin = $pdo->prepare("SELECT * FROM Admin WHERE nome = :username AND senha = :password LIMIT 1");
     $stmtAdmin->execute([
@@ -29,40 +29,32 @@ try {
         ':password' => $password
     ]);
 
-    // -----------------------------
-    // 2️⃣ Verificar CLIENTE
-    // -----------------------------
-    $stmtCliente = $pdo->prepare("SELECT * FROM Cliente WHERE nome = :username AND senha = :password LIMIT 1");
-    $stmtCliente->execute([
-        ':username' => $username,
-        ':password' => $password
-    ]);
-
-    // -----------------------------
-    // Verificar resultado
-    // -----------------------------
     if ($stmtAdmin->rowCount() > 0) {
-
-        // Sessão para ADMIN
         $_SESSION['user'] = $username;
         $_SESSION['tipo'] = "admin";
-
         header("Location: dashboard.php");
-        exit();
-
-    } elseif ($stmtCliente->rowCount() > 0) {
-
-        // Sessão para CLIENTE
-        $_SESSION['user'] = $username;
-        $_SESSION['tipo'] = "cliente";
-
-        header("Location: dashboard.php");
-        exit();
-
-    } else {
-        echo "<script>alert('Credenciais inválidas!'); window.location.href='../HTML/login_index.html';</script>";
         exit();
     }
+
+    // -----------------------------
+    // 2️⃣ Verificar CLIENTE (corrigido para hash)
+    // -----------------------------
+    $stmtCliente = $pdo->prepare("SELECT * FROM Cliente WHERE nome = :username LIMIT 1");
+    $stmtCliente->execute([':username' => $username]);
+    $cliente = $stmtCliente->fetch(PDO::FETCH_ASSOC);
+
+    if ($cliente && password_verify($password, $cliente['senha'])) {
+        $_SESSION['user'] = $username;
+        $_SESSION['tipo'] = "cliente";
+        header("Location: dashboard.php");
+        exit();
+    }
+
+    // -----------------------------
+    // Caso nenhum resultado
+    // -----------------------------
+    echo "<script>alert('Credenciais inválidas!'); window.location.href='../HTML/login_index.html';</script>";
+    exit();
 
 } catch (PDOException $e) {
     die("Erro na ligação: " . $e->getMessage());

@@ -5,35 +5,65 @@ $msg = "";
 // Configuração da ligação
 $host = "localhost";
 $dbname = "loja_pirotecnia"; 
-$user = "guimira";      // teu utilizador MariaDB
-$pass = "1234";         // tua password
+$user = "guimira";
+$pass = "1234";
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $nome = $_POST['nome'] ?? '';
-        $email = $_POST['email'] ?? '';
-        $senha = $_POST['senha'] ?? '';
-        $telefone = $_POST['telefone'] ?? '';
-        $endereco = $_POST['endereco'] ?? '';
 
-        // Validação simples
-        if (strlen($nome) < 3 || strlen($senha) < 3) {
-            $msg = "Nome e senha devem ter pelo menos 3 caracteres.";
-        } else {
-            $stmt = $pdo->prepare("INSERT INTO cliente (nome, email, senha, telefone, endereco) VALUES (:nome, :email, :senha, :telefone, :endereco)");
+        $nome = trim($_POST['nome'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $senha = $_POST['senha'] ?? '';
+        $telefone = trim($_POST['telefone'] ?? '');
+        $endereco = trim($_POST['endereco'] ?? '');
+
+        // Validação nome
+        if (strlen($nome) < 3) {
+            $msg = "O nome deve ter pelo menos 3 caracteres.";
+        }
+
+        // Validação email
+        elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $msg = "Email inválido.";
+        }
+
+        // Validação senha (mínimo 8)
+        elseif (strlen($senha) < 8) {
+            $msg = "A password deve ter pelo menos 8 caracteres.";
+        }
+
+        // Validação telefone (apenas 9 números)
+        elseif (!preg_match('/^[0-9]{9}$/', $telefone)) {
+            $msg = "O telefone deve conter exatamente 9 números.";
+        }
+
+        else {
+
+            // adicionar prefixo +351
+            $telefone = "+351" . $telefone;
+
+            // hash da password
+            $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+
+            $stmt = $pdo->prepare("INSERT INTO cliente 
+            (nome, email, senha, telefone, endereco) 
+            VALUES (:nome, :email, :senha, :telefone, :endereco)");
+
             $stmt->execute([
-                ':nome' => $nome,
+                ':nome' => htmlspecialchars($nome),
                 ':email' => $email,
-                ':senha' => $senha,
+                ':senha' => $senhaHash,
                 ':telefone' => $telefone,
-                ':endereco' => $endereco
+                ':endereco' => htmlspecialchars($endereco)
             ]);
+
             $msg = "Conta criada com sucesso!";
         }
     }
+
 } catch (PDOException $e) {
     $msg = "Os dados inseridos já estão a ser utilizados noutra conta.";
 }
@@ -88,7 +118,7 @@ try {
                 <input type="password" name="senha" required>
 
                 <label>Telefone:</label>
-                <input type="text" name="telefone" required>
+                <input type="text" name="telefone" pattern="[0-9]{9}" maxlength="9" placeholder="912345678" required>
 
                 <label>Endereço:</label>
                 <input type="text" name="endereco" required>
@@ -105,7 +135,7 @@ try {
 </div>
 
 <footer>
-    <p>© 2025 Kaboom — Todos os direitos reservados.</p>
+    <p>© 2026 Kaboom — Todos os direitos reservados.</p>
 </footer>
 
 </body>

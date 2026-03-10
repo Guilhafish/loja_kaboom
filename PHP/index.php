@@ -135,7 +135,7 @@ session_start();
 </main>
 
 <footer>
-    <p>© 2025 Kaboom — Todos os direitos reservados.</p>
+    <p>© 2026 Kaboom — Todos os direitos reservados.</p>
 </footer>
 
 <script>

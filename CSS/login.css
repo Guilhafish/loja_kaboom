@@ -151,6 +151,24 @@ body {
     box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
 }
 
+/* Esqueceu a senha */
+.forgot-password {
+    text-align: right;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.forgot-password a {
+    color: #c40000;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
 .register-link {
     margin-top: 20px;
     font-size: 0.9rem;
@@ -225,4 +243,21 @@ footer {
         font-size: 1.6rem;
         margin-top: 5px;
     }
+}
+
+button, .btn {
+    width: 65%;
+    background-color: #c40000;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+button:hover, .btn:hover {
+    background-color: #ff4d4d;
 }

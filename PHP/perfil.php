@@ -28,47 +28,82 @@ try {
     // Se o formulário for enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-        $novo_nome = $_POST['nome'];
-        $novo_email = $_POST['email'];
-        $novo_telefone = $_POST['telefone'];
-        $novo_endereco = $_POST['endereco'];
-        $nova_senha = !empty($_POST['senha']) ? password_hash($_POST['senha'], PASSWORD_DEFAULT) : null;
+        $novo_nome = trim($_POST['nome']);
+        $novo_email = trim($_POST['email']);
+        $novo_telefone = trim($_POST['telefone']);
+        $novo_endereco = trim($_POST['endereco']);
+        $nova_senha = $_POST['senha'];
 
-        // Atualizar dados
-        if ($nova_senha) {
-            $stmtUpdate = $pdo->prepare("
-                UPDATE cliente 
-                SET nome = :nome, email = :email, telefone = :telefone, endereco = :endereco, senha = :senha 
-                WHERE id_cliente = :id
-            ");
-            $stmtUpdate->execute([
-                ':nome' => $novo_nome,
-                ':email' => $novo_email,
-                ':telefone' => $novo_telefone,
-                ':endereco' => $novo_endereco,
-                ':senha' => $nova_senha,
-                ':id' => $cliente['id_cliente']
-            ]);
-        } else {
-            // Sem troca de senha
-            $stmtUpdate = $pdo->prepare("
-                UPDATE cliente 
-                SET nome = :nome, email = :email, telefone = :telefone, endereco = :endereco  
-                WHERE id_cliente = :id
-            ");
-            $stmtUpdate->execute([
-                ':nome' => $novo_nome,
-                ':email' => $novo_email,
-                ':telefone' => $novo_telefone,
-                ':endereco' => $novo_endereco,
-                ':id' => $cliente['id_cliente']
-            ]);
+        // Validação nome
+        if (strlen($novo_nome) < 3) {
+            $erro = "O nome deve ter pelo menos 3 caracteres.";
         }
 
-        // Atualizar sessão
-        $_SESSION['user'] = $novo_nome;
+        // Validação email
+        elseif (!filter_var($novo_email, FILTER_VALIDATE_EMAIL)) {
+            $erro = "Email inválido.";
+        }
 
-        $mensagem = "Dados atualizados com sucesso!";
+        // Validação telefone (9 números)
+        elseif (!preg_match('/^[0-9]{9}$/', $novo_telefone)) {
+            $erro = "O telefone deve conter exatamente 9 números.";
+        }
+
+        else {
+
+            // adicionar prefixo +351
+            $novo_telefone = "+351" . $novo_telefone;
+
+            // Verificar senha se foi preenchida
+            if (!empty($nova_senha)) {
+
+                if (strlen($nova_senha) < 8) {
+                    $erro = "A password deve ter pelo menos 8 caracteres.";
+                } else {
+
+                    $senhaHash = password_hash($nova_senha, PASSWORD_DEFAULT);
+
+                    $stmtUpdate = $pdo->prepare("
+                        UPDATE cliente 
+                        SET nome = :nome, email = :email, telefone = :telefone, endereco = :endereco, senha = :senha 
+                        WHERE id_cliente = :id
+                    ");
+
+                    $stmtUpdate->execute([
+                        ':nome' => htmlspecialchars($novo_nome),
+                        ':email' => $novo_email,
+                        ':telefone' => $novo_telefone,
+                        ':endereco' => htmlspecialchars($novo_endereco),
+                        ':senha' => $senhaHash,
+                        ':id' => $cliente['id_cliente']
+                    ]);
+
+                    $mensagem = "Dados atualizados com sucesso!";
+                }
+
+            } else {
+
+                // Sem alteração de senha
+                $stmtUpdate = $pdo->prepare("
+                    UPDATE cliente 
+                    SET nome = :nome, email = :email, telefone = :telefone, endereco = :endereco  
+                    WHERE id_cliente = :id
+                ");
+
+                $stmtUpdate->execute([
+                    ':nome' => htmlspecialchars($novo_nome),
+                    ':email' => $novo_email,
+                    ':telefone' => $novo_telefone,
+                    ':endereco' => htmlspecialchars($novo_endereco),
+                    ':id' => $cliente['id_cliente']
+                ]);
+
+                $mensagem = "Dados atualizados com sucesso!";
+            }
+
+            // Atualizar sessão
+            $_SESSION['user'] = $novo_nome;
+        }
     }
 
 } catch (PDOException $e) {
@@ -103,7 +138,8 @@ try {
     <input type="email" name="email" value="<?= $cliente['email']; ?>" required>
 
     <label>Telefone</label>
-    <input type="text" name="telefone" value="<?= $cliente['telefone']; ?>" required>
+    <input type="text" name="telefone" pattern="[0-9]{9}" maxlength="9"
+    value="<?= str_replace('+351','',$cliente['telefone']); ?>" required>
 
     <label>Endereço</label>
     <input type="text" name="endereco" value="<?= $cliente['endereco']; ?>" required>
