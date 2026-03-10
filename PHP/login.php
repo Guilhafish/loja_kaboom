@@ -17,7 +17,7 @@ try {
 
     // Validação básica
     if (strlen($username) < 3 || strlen($password) < 3) {
-        die("<script>alert('Dados inválidos!'); window.location.href='index.html';</script>");
+        die("<script>alert('Dados inválidos!'); window.location.href='../HTML/login_index.html';</script>");
     }
 
     // -----------------------------
@@ -60,7 +60,7 @@ try {
         exit();
 
     } else {
-        echo "<script>alert('Credenciais inválidas!'); window.location.href='index.html';</script>";
+        echo "<script>alert('Credenciais inválidas!'); window.location.href='../HTML/login_index.html';</script>";
         exit();
     }
 
