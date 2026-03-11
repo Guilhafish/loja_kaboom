@@ -1,4 +1,12 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../PHPMailer-master/src/Exception.php';
+require '../PHPMailer-master/src/PHPMailer.php';
+require '../PHPMailer-master/src/SMTP.php';
+
 session_start();
 
 $msg = "";
@@ -28,7 +36,53 @@ try {
             ]);
 
             $link = "http://localhost/loja_kaboom/PHP/reset_senha.php?token=$token";
-            $msg = "Link de recuperação gerado: <a href='$link'>$link</a> (válido por 10 minutos)";
+
+            $mail = new PHPMailer(true);
+
+            try {
+
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'kaboomvalidacao@gmail.com';
+                $mail->Password = 'vaxl tgvx ugmf urwu';
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = 587;
+
+                $mail->SMTPOptions = [
+                    'ssl' => [
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true
+                    ]
+                ];
+
+                $mail->setFrom('kaboomvalidacao@gmail.com', 'Kaboom');
+                $mail->addAddress($email);
+
+                $mail->isHTML(true);
+                $mail->CharSet = 'UTF-8'; // ✅ Corrige acentuação
+                $mail->Subject = 'Recuperação de senha - Kaboom';
+
+                $mail->Body = "
+                    <h2>Recuperação de senha</h2>
+                    <p>Recebemos um pedido para redefinir a sua senha.</p>
+                    <p>Clique no link abaixo:</p>
+                    <a href='$link'>$link</a>
+                    <p>Este link expira em 10 minutos.</p>
+                ";
+
+                $mail->send();
+
+                echo "<script>
+                    alert('Email de recuperação enviado com sucesso! Verifique sua caixa de entrada.');
+                    window.location.href='../HTML/login_index.html';
+                </script>";
+                exit();
+
+            } catch (Exception $e) {
+                $msg = "Erro ao enviar email: " . $mail->ErrorInfo;
+            }
         } else {
             $msg = "Email não encontrado.";
         }
