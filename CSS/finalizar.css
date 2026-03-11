@@ -65,3 +65,22 @@ button:hover {
 .button-voltar button:hover {
     background-color: #777;
 }
+
+.pagamento-campo{
+    display:none;
+}
+
+.total-compra{
+    margin-top:20px;
+    font-size:20px;
+    font-weight:bold;
+    text-align:center;
+}
+
+.btc-conversao{
+    display:none;
+    text-align:center;
+    margin-top:5px;
+    font-size:16px;
+    font-weight:normal;
+}

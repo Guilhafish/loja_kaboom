@@ -41,7 +41,7 @@ try {
         switch($metodo_pagamento) {
             case 'MBWay':
                 $dados_pagamento = $_POST['mbway_numero'] ?? '';
-                if (!$dados_pagamento) {
+                if (!preg_match('/^[0-9]{9}$/', $dados_pagamento)) {
                     echo "<script>alert('Insere o teu número MBWay!'); history.back();</script>";
                     exit();
                 }
@@ -49,7 +49,7 @@ try {
 
             case 'PayPal':
                 $dados_pagamento = $_POST['paypal_email'] ?? '';
-                if (!$dados_pagamento) {
+                if (!filter_var($dados_pagamento, FILTER_VALIDATE_EMAIL)) {
                     echo "<script>alert('Insere o teu email PayPal!'); history.back();</script>";
                     exit();
                 }
@@ -57,7 +57,7 @@ try {
 
             case 'BTC':
                 $dados_pagamento = $_POST['btc_endereco'] ?? '';
-                if (!$dados_pagamento) {
+                if (strlen($dados_pagamento) < 26 || strlen($dados_pagamento) > 42) {
                     echo "<script>alert('Insere o teu endereço BTC!'); history.back();</script>";
                     exit();
                 }
@@ -122,6 +122,12 @@ try {
 } catch (PDOException $e) {
     die("Erro na ligação: " . $e->getMessage());
 }
+
+$total = 0;
+foreach($_SESSION['carrinho'] as $item) {
+    $total += $item['preco'] * $item['quantidade'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -134,12 +140,53 @@ try {
 <link rel="stylesheet" href="../CSS/finalizar.css">
 <script>
 function mostrarCampos(valor) {
+
     document.getElementById('campo_mbway').style.display = (valor === 'MBWay') ? 'block' : 'none';
     document.getElementById('campo_paypal').style.display = (valor === 'PayPal') ? 'block' : 'none';
     document.getElementById('campo_btc').style.display = (valor === 'BTC') ? 'block' : 'none';
+
+    if(valor === "BTC"){
+        document.getElementById("btc_valor").style.display = "block";
+        converterBTC();
+    }else{
+        document.getElementById("btc_valor").style.display = "none";
+    }
+
 }
 </script>
 </head>
+<script>
+
+let totalEuro = <?php echo $total; ?>;
+
+async function converterBTC(){
+
+    let resposta = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur");
+    let dados = await resposta.json();
+
+    let precoBTC = dados.bitcoin.eur;
+
+    let valorBTC = totalEuro / precoBTC;
+
+    document.getElementById("valor_btc").innerText = valorBTC.toFixed(6) + " BTC";
+}
+
+function mostrarCampos(valor) {
+
+    document.getElementById('campo_mbway').style.display = (valor === 'MBWay') ? 'block' : 'none';
+    document.getElementById('campo_paypal').style.display = (valor === 'PayPal') ? 'block' : 'none';
+    document.getElementById('campo_btc').style.display = (valor === 'BTC') ? 'block' : 'none';
+
+    if(valor === "BTC"){
+        document.getElementById("btc_valor").style.display = "block";
+        converterBTC();
+    } else {
+        document.getElementById("btc_valor").style.display = "none";
+    }
+
+}
+
+</script>
 <body>
 <div class="finalizar-container">
 
@@ -173,7 +220,8 @@ function mostrarCampos(valor) {
 
         <div id="campo_mbway" class="pagamento-campo">
             <label>Número MBWay:</label>
-            <input type="text" name="mbway_numero" placeholder="Ex: 912345678">
+            <input type="text" name="mbway_numero" placeholder="Ex: 912345678"
+            pattern="[0-9]{9}" maxlength="9">
         </div>
 
         <div id="campo_paypal" class="pagamento-campo">
@@ -183,7 +231,18 @@ function mostrarCampos(valor) {
 
         <div id="campo_btc" class="pagamento-campo">
             <label>Endereço BTC:</label>
-            <input type="text" name="btc_endereco" placeholder="Ex: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">
+            <input type="text" name="btc_endereco"
+            placeholder="Ex: bc1q..."
+            minlength="26"
+            maxlength="42">
+        </div>
+        
+        <div class="total-compra">
+            <h3>Total da Compra: €<?php echo number_format($total, 2, ',', '.'); ?></h3>
+        </div>
+
+        <div id="btc_valor" class="btc-conversao">
+            Equivalente em BTC: <span id="valor_btc"></span>
         </div>
 
         <button type="submit">Finalizar Compra</button>
