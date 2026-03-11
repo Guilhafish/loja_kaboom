@@ -69,7 +69,13 @@ if ($_POST) {
     <input type="number" name="estoque" required>
 
     <label>Categoria:</label>
-    <input type="text" name="categoria" required>
+    <select name="categoria" required>
+        <option value="">Selecione uma categoria</option>
+        <option value="Petardos">Petardos</option>
+        <option value="Fumos">Fumos</option>
+        <option value="Tochas">Tochas</option>
+        <option value="Strobes">Strobes</option>
+    </select>
 
     <button type="submit">Salvar</button>
 </form>

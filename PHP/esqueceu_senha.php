@@ -21,14 +21,14 @@ try {
 
         if ($cliente) {
             $token = bin2hex(random_bytes(16));
-            $stmtToken = $pdo->prepare("UPDATE cliente SET token_recuperacao = :token, token_expira = DATE_ADD(NOW(), INTERVAL 30 MINUTE) WHERE id_cliente = :id");
+            $stmtToken = $pdo->prepare("UPDATE cliente SET token_recuperacao = :token, token_expira = DATE_ADD(NOW(), INTERVAL 10 MINUTE) WHERE id_cliente = :id");
             $stmtToken->execute([
                 ':token' => $token,
                 ':id' => $cliente['id_cliente']
             ]);
 
             $link = "http://localhost/loja_kaboom/PHP/reset_senha.php?token=$token";
-            $msg = "Link de recuperação gerado: <a href='$link'>$link</a> (válido por 30 minutos)";
+            $msg = "Link de recuperação gerado: <a href='$link'>$link</a> (válido por 10 minutos)";
         } else {
             $msg = "Email não encontrado.";
         }

@@ -96,3 +96,19 @@ a.button-voltar button {
     padding: 10px 20px;
     text-align: center;
 }
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background-color: #1a1a1a;
+    color: #fff;
+    font-size: 1rem;
+}
+
+select:focus {
+    border-color: #c40000;
+    outline: none;
+}

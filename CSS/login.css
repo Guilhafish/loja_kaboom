@@ -261,3 +261,12 @@ button, .btn {
 button:hover, .btn:hover {
     background-color: #ff4d4d;
 }
+
+.login-box a {
+    color: #c40000;
+    font-weight: 500;
+}
+
+.login-box a:hover {
+    text-decoration: underline;
+}

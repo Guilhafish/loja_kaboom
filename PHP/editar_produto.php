@@ -99,7 +99,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <input type="number" name="estoque" min="0" value="<?= $produto['estoque']; ?>" required>
 
     <label>Categoria:</label>
-    <input type="text" name="categoria" value="<?= htmlspecialchars($produto['categoria']); ?>" required>
+    <select name="categoria" required>
+        <option value="Petardos" <?= $produto['categoria'] == 'Petardos' ? 'selected' : '' ?>>Petardos</option>
+        <option value="Fumos" <?= $produto['categoria'] == 'Fumos' ? 'selected' : '' ?>>Fumos</option>
+        <option value="Tochas" <?= $produto['categoria'] == 'Tochas' ? 'selected' : '' ?>>Tochas</option>
+        <option value="Strobes" <?= $produto['categoria'] == 'Strobes' ? 'selected' : '' ?>>Strobes</option>
+    </select>
 
     <button type="submit">Guardar Alterações</button>
 </form>
