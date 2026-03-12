@@ -70,7 +70,13 @@ if (isset($_SESSION['carrinho'][$id_produto])) {
 // ----------------------
 // 7️⃣ Redireciona de volta
 // ----------------------
+$qtd = $quantidade;
+
 $referer = $_SERVER['HTTP_REFERER'] ?? 'index.php';
-header("Location: $referer");
+
+echo "<script>
+alert('Adicionou $qtd item(ns) ao carrinho!');
+window.location.href='$referer';
+</script>";
 exit();
 ?>

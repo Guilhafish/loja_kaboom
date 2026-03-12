@@ -1,5 +1,14 @@
 <?php
 session_start();
+
+if (isset($_GET['added'])) {
+    $qtd = intval($_GET['added']);
+
+    echo "<script>
+        alert('Adicionou $qtd item(ns) ao carrinho!');
+    </script>";
+}
+
 require "db.php"; // Conexão com o banco de dados
 
 // Buscar produtos da categoria "Petardos"
@@ -118,7 +127,7 @@ function alterarQtd(id, valor) {
 function adicionarCarrinho(idProduto) {
     let qtd = document.getElementById("qtd_" + idProduto).value;
 
-    window.location.href = "add_carrinho.php?id=" + idProduto + "&qtd=" + qtd;
+    window.location.href = "add_carrinho.php?id=" + idProduto + "&qtd=" + qtd + "&pagina=petardos";
 }
 </script>
 
